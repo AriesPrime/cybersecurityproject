@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <h1>
+        WELCOME{% if user.is_authenticated %}, {{ user.username }}{% endif %}!
+    </h1>
+
+    {% if user.is_authenticated %}
+    <form method="get">
+        <input type="text" name="search" placeholder="Search by title, author, or post ID"
+            value="{{ request.GET.search }}">
+        <button type="submit">Search</button>
+        {% if request.GET.search %}
+        <a href="{% url 'home' %}">
+            <button type="button">Reset</button>
+        </a>
+        {% endif %}
+    </form>
+
+    <a>
+        <button type="button" onclick="alert('I am an alert box!');">alert</button>
+    </a>
+
+    <a href="{% url 'create_post' %}">
+        <button>Create new post</button>
+    </a>
+
+    <h2>
+        {% if search_query %}
+        Search results for "{{ search_query }}"
+        {% else %}
+        Recent Posts
+        {% endif %}
+    </h2>
+
+    <ul>
+        {% for post in posts %}
+        <li>
+            <a href="{% url 'post_detail' post.id %}">{{ post.title }} (ID: {{ post.id }})</a> by {{ post.author }}
+            (created on {{ post.created_at }})
+        </li>
+        {% empty %}
+        <p>No posts yet!</p>
+        {% endfor %}
+    </ul>
+
+    <form action="{% url 'signout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Sign out</button>
+    </form>
+
+    {% else %}
+    <p>You need to</p>
+    <a href="{% url 'signin' %}">
+        <button>Sign in</button>
+    </a>
+    <p>or</p>
+    <a href="{% url 'signup' %}">
+        <button>Sign up</button>
+    </a>
+    <p>to view posts.</p>
+    {% endif %}
+
+</body>
+
+</html>

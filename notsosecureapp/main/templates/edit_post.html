@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <h1>EDIT POST</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+
+    <!--{% if post.author == request.user %} {% endif %}-->
+    <form action="{% url 'delete_post' post.id %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Delete post</button>
+    </form>
+
+    <a href="{% url 'post_detail' post.id %}">
+        <button>Cancel</button>
+    </a>
+</body>
+
+</html>
