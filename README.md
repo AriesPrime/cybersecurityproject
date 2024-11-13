@@ -16,11 +16,11 @@ I purposefully incorporated six distinct vulnerabilities from the 2021 OWASP Top
 ## Flaws
 
 ### Flaw 1: Security Misconfiguration (A05:2021)
-> **Source**: `/notsosecureapp/notsosecureapp/settings.py#L26`
-> 
-> **Description**: The application’s settings file currently has debug mode enabled, which is common during development to display detailed error messages and system information that assists with troubleshooting. However, if debug mode (`DEBUG = True`) is left enabled in a production environment, it becomes a significant security risk. Debug mode outputs sensitive data about the server and database configurations, user sessions, and routes, which can help attackers understand the system’s inner workings and plan their attacks accordingly. For instance, an attacker could use error tracebacks and SQL error messages to identify SQL queries and injection points.
-> 
-> **Fix**: Before deploying the application to production, it’s essential to disable debug mode by setting `DEBUG = False` in the `settings.py` file (line 26).
+- **Source**: `/notsosecureapp/notsosecureapp/settings.py#L26`
+ 
+- **Description**: The application’s settings file currently has debug mode enabled, which is common during development to display detailed error messages and system information that assists with troubleshooting. However, if debug mode (`DEBUG = True`) is left enabled in a production environment, it becomes a significant security risk. Debug mode outputs sensitive data about the server and database configurations, user sessions, and routes, which can help attackers understand the system’s inner workings and plan their attacks accordingly. For instance, an attacker could use error tracebacks and SQL error messages to identify SQL queries and injection points.
+ 
+- **Fix**: Before deploying the application to production, it’s essential to disable debug mode by setting `DEBUG = False` in the `settings.py` file (line 26).
 
 ### Flaw 2: Identification and Authentication Failures (A07:2021)
 > **Source**: `/notsosecureapp/settings.py#L37` & `/notsosecureapp/securesessions.py`
