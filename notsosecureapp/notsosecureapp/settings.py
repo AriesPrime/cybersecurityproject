@@ -40,6 +40,10 @@ SESSION_ENGINE = 'notsosecureapp.securesessions'
 # Delete file securesessions.py and remove line 37.
 # Use Django's own session manager for generating session keys.
 
+CSRF_COOKIE_SECURE = True  # Use True if using HTTPS in production
+CSRF_USE_SESSIONS = True   # Tie CSRF tokens to user sessions
+SESSION_COOKIE_SECURE = True  # Use True if using HTTPS in production
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

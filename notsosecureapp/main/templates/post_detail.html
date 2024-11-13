@@ -15,7 +15,7 @@
     <ul>
         {% for comment in post.comments.all %}
         <li>
-            <strong>{{ comment.author }}</strong> ({{ comment.created_at }}): {{ comment.content|safe }}
+            <strong>{{ comment.author }}</strong> ({{ comment.created_at }}): {{ comment.content|safe }} <!--remove '|safe'-->
             <!--{% if post.author == request.user %} {% endif %}-->
             <form action="{% url 'delete_comment' comment.id %}" method="post" style="display:inline;">
                 {% csrf_token %}
@@ -28,9 +28,9 @@
     </ul>
 
     <h3>Leave a comment</h3>
-    <form method="post">
-        {% csrf_token %}
-        <textarea name="content" placeholder="Your comment" required></textarea>
+    <form method="post" action="{% url 'add_comment' post.id %}">
+        <!--{% csrf_token %} uncomment this-->
+        {{ form.as_p }}
         <button type="submit">Post comment</button>
     </form>
 

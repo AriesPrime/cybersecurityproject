@@ -47,6 +47,7 @@ def home(request):
 
     return render(request, 'home.html', {'posts': posts, 'search_query': search_query})
 
+
 def create_post(request):
 
     # Cryptographic Failures (A02:2021): data submitted by user is visible in URL
@@ -66,23 +67,24 @@ def create_post(request):
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-
     comments = post.comments.all()
+
     form = CommentForm(request.POST or None)
     if form.is_valid():
         comment = form.save(commit=False)
         comment.post = post
-        comment.author = request.user.username
+        comment.author = request.user
         comment.save()
         return redirect('post_detail', post_id=post.id)
+
     return render(request, 'post_detail.html', {'post': post, 'comments': comments, 'form': form})
 
 
 def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    
+
     # Broken Access Control (A01:2021): any user can edit any post
-    # Fix: 
+    # Fix:
     # Check if the user is the author of the post
     # if post.author != request.user:
     #    return HttpResponseForbidden("You are not allowed to edit this post.")
@@ -105,20 +107,24 @@ def search_posts(request):
     return render(request, 'search_results.html', {'posts': posts})
 
 
-# Cross-Site Request Forgery (CSRF): app is vulnerable to CSRF attacks
+# Cross-Site Request Forgery (CSRF): app is vulnerable to XSS attacks
 @csrf_exempt
 def add_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
 
-    if request.method == 'POST':
-        Comment.objects.create(
-            post=post, author=request.user, content=request.POST.get('content'))
-        return redirect('post_detail', post_id=post.id)
-    return render(request, 'add_comment.html', {'post': post})
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.post = post
+        comment.author = request.user
+        comment.save()
+
+    return render(request, 'post_detail.html', {'post': post, 'form': form})
 
 # Fix:
-# Remove @csrf_exempt and use CSRF protection on the form
-# in the HTML template (e.g., {% csrf_token %} in forms)
+# Remove @csrf_exempt on line 111 and use CSRF protection on the form  on line 32 in post_detail.html
+# Use CSRF prorection in the HTML template in general (e.g., {% csrf_token %} in forms)
+# Remove '|safe' from line 18 in post_detail.html
 
 
 def delete_post(request, post_id):
