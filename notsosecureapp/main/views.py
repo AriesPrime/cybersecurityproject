@@ -49,6 +49,10 @@ def home(request):
 
 def create_post(request):
 
+    # Cryptographic Failures (A02:2021): data submitted by user is visible in URL
+    # Fix:
+    # Switch the 'GET' method to a 'POST' request to transfer data
+
     form = PostForm(request.GET)
     if form.is_valid():
         post = form.save(commit=False)
@@ -77,6 +81,7 @@ def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     
     # Broken Access Control (A01:2021): any user can edit any post
+    # Fix: 
     # Check if the user is the author of the post
     # if post.author != request.user:
     #    return redirect('home')  # Redirect if not the author

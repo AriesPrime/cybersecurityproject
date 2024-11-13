@@ -33,7 +33,11 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# Identification and Authentication Failures (A07:2021): app uses predictable session IDs
 SESSION_ENGINE = 'notsosecureapp.securesessions'
+
+# Fix:
+# Use Django's own session manager for generating session keys
 
 INSTALLED_APPS = [
     'django.contrib.admin',
