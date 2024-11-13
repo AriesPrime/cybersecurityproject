@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-9sne-0zm1hz7p*id(uqwh7k76-tjnc9#(ga1*k202+vg7g%_0f
 DEBUG = True # Security Misconfiguration (A05:2021): vulnerable setting in production
 
 # Fix:
-# Ensure DEBUG is set to False in production
+# Ensure DEBUG is set to False in production (DEBUG = False)
 
 ALLOWED_HOSTS = []
 
@@ -37,7 +37,8 @@ ALLOWED_HOSTS = []
 SESSION_ENGINE = 'notsosecureapp.securesessions'
 
 # Fix:
-# Use Django's own session manager for generating session keys
+# Delete file securesessions.py and remove line 37.
+# Use Django's own session manager for generating session keys.
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -111,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Fix:
-# Uncomment password validators to enforce secure passwords
+# Uncomment password validators (lines 100-111) to enforce secure passwords
 
 
 # Internationalization

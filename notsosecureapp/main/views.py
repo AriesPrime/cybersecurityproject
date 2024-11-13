@@ -52,6 +52,7 @@ def create_post(request):
     # Cryptographic Failures (A02:2021): data submitted by user is visible in URL
     # Fix:
     # Switch the 'GET' method to a 'POST' request to transfer data
+    # form = PostForm(request.POST)
 
     form = PostForm(request.GET)
     if form.is_valid():
@@ -84,7 +85,7 @@ def edit_post(request, post_id):
     # Fix: 
     # Check if the user is the author of the post
     # if post.author != request.user:
-    #    return redirect('home')  # Redirect if not the author
+    #    return HttpResponseForbidden("You are not allowed to edit this post.")
 
     form = PostForm(request.POST or None, instance=post)
     if form.is_valid():
@@ -124,13 +125,11 @@ def delete_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
 
     # Broken Access Control (A01:2021): any user can delete any post
-    post.delete()
-
     # Fix:
     # Ensure only the post author can delete the post
     # if post.author != request.user.username:
     #     return HttpResponseForbidden("You are not allowed to delete this post.")
-    # post.delete()
+    post.delete()
 
     return redirect('home')
 
@@ -139,12 +138,10 @@ def delete_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
 
     # Broken Access Control (A01:2021): any user can delete any comment
-    comment.delete()
-
     # Fix:
     # Ensure only the comment author can delete the comment
     # if comment.author != request.user.username:
     #     return HttpResponseForbidden("You are not allowed to delete this comment.")
-    # comment.delete()
+    comment.delete()
 
     return redirect('post_detail', post_id=comment.post.id)

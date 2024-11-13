@@ -9,6 +9,8 @@
 <body>
     <h2>CREATE A NEW POST</h2>
 
+    <!-- Switch 'GET' to 'POST' to transfer data
+    form method="post" -->
     <form method="get" action="{% url 'create_post' %}">
         {% csrf_token %}
         {{ form.as_p }}
