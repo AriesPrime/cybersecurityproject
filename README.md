@@ -1,6 +1,6 @@
 # Cyber Security Base 2024: Project 1
 
-For my project, I developed a minimalist blogging platform. The primary functionalities include user sign-up, post publishing, commenting on posts, and searching for posts by keyword. Users can also edit or delete their posts and comments. My focus in development was solely on the back-end, so the front-end was intentionally kept basic and unstyled.
+For my project, I developed a minimalist blogging platform with Python and Django. The primary functionalities include user sign-up, post publishing, commenting on posts, and searching for posts by keyword. Users can also edit or delete their posts and comments. My focus in development was solely on the back-end, so the front-end was intentionally kept basic and unstyled.
 
 I purposefully incorporated six distinct vulnerabilities from the 2021 OWASP Top Ten list, which are common issues in modern web applications. Here’s a breakdown of each flaw, why it’s a problem, and how it can be fixed.
 
